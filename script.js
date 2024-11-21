@@ -1,77 +1,13 @@
 
 // Product Data
-const cardData = [
-    {
-        images: [
-            'https://static.zara.net/assets/public/3320/4175/2d434fe08bff/d796d132ebc8/07484455708-e1/07484455708-e1.jpg?ts=1727256197645&w=850',
-            'https://static.zara.net/assets/public/4d4d/4f22/db66499b8ee7/6b93ddaa7771/07484455708-e2/07484455708-e2.jpg?ts=1727256190410&w=850',
-            'https://static.zara.net/assets/public/b614/2b41/3f184676930b/79dfa0790346/07484455708-e3/07484455708-e3.jpg?ts=1727256231406&w=850'
-        ],
-        title: 'Beige Jacket',
-        description: 'A smart beige jacket perfect for evening occasions.',
-        price: '120 CHF',
-        shopUrl: 'https://example.com/shop/red-dress',
-        reviews: [
-            {
-                name: 'Alice',
-                rating: 5,
-                comment: 'Absolutely love this dress!'
-            },
-            {
-                name: 'Emma',
-                rating: 4,
-                comment: 'Great fit, but the color was slightly different than expected.'
-            }
-        ]
-    },
-    {
-        images: [
-            'https://static.zara.net/assets/public/f945/aff7/c07d443d826e/48c1a60fcb34/07484453800-e1/07484453800-e1.jpg?ts=1726733255631&w=850',
-            'https://static.zara.net/assets/public/4928/ad36/2d894f9aa810/ad0dc7c7e464/07484453800-e2/07484453800-e2.jpg?ts=1726733256117&w=850',
-            'https://static.zara.net/assets/public/73eb/abef/d22b4ebf8fcf/24968c02d7f7/07484453800-e3/07484453800-e3.jpg?ts=1726733257117&w=850'
-        ],
-        title: 'Blue Jeans',
-        description: 'Comfortable blue jeans for everyday wear.',
-        price: '80 CHF',
-        shopUrl: 'https://example.com/shop/blue-jeans',
-        reviews: [
-            {
-                name: 'John',
-                rating: 4,
-                comment: 'Very comfortable and stylish.'
-            },
-            {
-                name: 'Sophia',
-                rating: 5,
-                comment: 'My favorite pair of jeans!'
-            }
-        ]
-    },
-    {
-        images: [
-            'https://static.zara.net/assets/public/ec02/0fc8/fa67461d8cc9/e95c5c34dc43/00706310801-e1/00706310801-e1.jpg?ts=1729511378643&w=850',
-            'https://static.zara.net/assets/public/171f/0e08/1a3c4ab6a31f/de31a3b83e6e/00706310801-e2/00706310801-e2.jpg?ts=1729511379336&w=850',
-            'https://static.zara.net/assets/public/6218/5d5e/459147568aa0/d4982583ef3d/00706310801-e3/00706310801-e3.jpg?ts=1729511385732&w=850',
-        ],
-        title: 'Leather Jacket',
-        description: 'Stylish leather jacket to keep you warm.',
-        price: '200 CHF',
-        shopUrl: 'https://example.com/shop/leather-jacket',
-        reviews: [
-            {
-                name: 'Michael',
-                rating: 5,
-                comment: 'Excellent quality and fits perfectly.'
-            },
-            {
-                name: 'Olivia',
-                rating: 3,
-                comment: 'Good jacket but the zipper is a bit stiff.'
-            }
-        ]
-    }
-    // Add more items as needed
+let cardData = [
+
 ];
+
+// HARCODE
+for (let i = 0; i <= 95; i++) {
+    cardData.push(i);
+}
 
 const cardContainer = document.getElementById('card-container');
 const cartOverlay = document.getElementById('cartOverlay');
@@ -84,7 +20,10 @@ const reviewsList = document.getElementById('reviewsList');
 const closeReviewsBtn = document.getElementById('closeReviewsBtn');
 
 let currentIndex = 0;
+let prevIndex = 50 // random
+let nextIndex = 0
 let cart = [];
+let queue = [];
 
 // Function to Create Card
 function createCard(item) {
@@ -93,9 +32,11 @@ function createCard(item) {
 
     // Create image carousel
     let carouselImages = '';
-    item.images.forEach((imgSrc, index) => {
-        carouselImages += `<img src="${imgSrc}" alt="${item.title}" class="${index === 0 ? 'active' : ''}">`;
-    });
+    let imgSrcCur = 'images/image_' + currentIndex.toString() + '.jpg';
+    console.log(imgSrcCur);
+    // item.images.forEach((imgSrc, index) => {
+        carouselImages += `<img src="${imgSrcCur}" class="${'active'}">`;
+    // });
 
     card.innerHTML = `
 <button class="cartBtn"><i class="bi bi-cart"></i></button>
@@ -106,10 +47,6 @@ function createCard(item) {
         <button class="prevBtn"><i class="bi bi-chevron-left"></i></button>
         <button class="nextBtn"><i class="bi bi-chevron-right"></i></button>
     </div>
-</div>
-<div class="info">
-   <div class = "desc"f><h3>${item.title}</h3><div class="price">${item.price}</div></div>
-    <p>${item.description}</p>
 </div>
 <div class="buttons">
     <button id="dislikeBtn"><i class="bi bi-hand-thumbs-down"></i></button>
@@ -159,11 +96,24 @@ function createCard(item) {
 
 // Function to Show Next Card
 function showNextCard() {
-    if (currentIndex < cardData.length) {
+    if (queue.length > 1) {
+        prevIndex = currentIndex;
+        currentIndex = queue[0];
+        queue.shift();
+        nextIndex = queue[0];
         createCard(cardData[currentIndex]);
-        currentIndex++;
     } else {
-        alert('No more items!');
+        fetch('http://localhost:5000/get_images')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    queue = queue.concat(data.images);
+                    showNextCard();
+                } else if (data.status === 'empty') {
+                    console.log('Image queue is empty, sending liked images');
+                }
+            });
+        // console.log(queue)
     }
 }
 
@@ -172,12 +122,38 @@ function handleAction(action, card) {
     if (card) {
         if (action === 'like') {
             card.style.transform = `translateX(1000px) rotate(45deg)`;
+            fetch('http://localhost:5000/like_image', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ liked_image: currentIndex }),
+            })
+            .then(response => response.json())
         } else if (action === 'dislike') {
             card.style.transform = `translateX(-1000px) rotate(-45deg)`;
+            fetch('http://localhost:5000/dislike_image', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ disliked_image: currentIndex }),
+            })
+            .then(response => response.json())
         } else if (action === 'buy') {
             cart.push(cardData[currentIndex - 1]);
             card.style.transform = `translateY(-1000px)`;
             alert(`"${cardData[currentIndex - 1].title}" has been added to your cart.`);
+
+            fetch('http://localhost:5000/like_image', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ liked_image: currentIndex }),
+            })
+            .then(response => response.json())
+        
         }
         setTimeout(() => {
             card.remove();
@@ -195,7 +171,7 @@ function openCart() {
         cart.forEach(item => {
             const li = document.createElement('li');
             li.innerHTML = `
-                <img src="${item.images[0]}" alt="${item.title}">
+                <img src="${item}" alt="${item.title}">
                 <div>
                     <strong>${item.title}</strong>
                     <p>${item.description}</p>
@@ -242,5 +218,48 @@ closeReviewsBtn.addEventListener('click', () => {
     reviewsOverlay.style.display = 'none';
 });
 
+// document.addEventListener("DOMContentLoaded", function() {
+    // Load the Excel file from a specific path
+    // fetch('wornwear.xlsx') // Replace 'data.xlsx' with the relative path of your Excel file
+    //     .then(response => {
+    //         if (!response.ok) {
+    //             throw new Error('Network response was not ok');
+    //         }
+    //         return response.arrayBuffer();
+    //     })
+    //     .then(data => {
+//             // Use SheetJS to parse the Excel file
+            // const workbook = XLSX.read(wornwear.xlsx, { type: 'array' });
+            // const sheetName = workbook.SheetNames[0]; // Assuming you want to work with the first sheet
+            // const worksheet = workbook.Sheets[sheetName];
+
+            // // Convert the worksheet to JSON format
+            // const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+            // // Assuming that the first row has parameter names
+            // const headers = jsonData[0];
+            // const rows = jsonData.slice(1); // Data starts from the second row
+
+            // rows.forEach(row => {
+            //     let element = {};
+            //     headers.forEach((header, index) => {
+            //         element[header] = row[index];
+            //     });
+            //     cardData.push(element);
+            // });
+            
+            // console.log(cardData.length);
+            
+            // cardData.forEach(element => {
+            //     console.log(JSON.stringify(structuredClone(element), null, 2));
+            //   });
+
 // Initialize First Card
+// Display elements in the HTML page for demonstration
+// document.getElementById('output').textContent = JSON.stringify(cardData, null, 2);
 showNextCard();
+        // })
+        // .catch(error => {
+        //     console.error('Error fetching the Excel file:', error);
+        // });
+// });

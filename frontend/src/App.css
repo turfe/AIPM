@@ -1,0 +1,65 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  font-family: 'Inter', sans-serif;
+}
+
+.App {
+  text-align: center;
+  padding: 20px;
+}
+
+.card {
+  width: 350px;
+  margin: auto;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: left;
+}
+
+.carousel img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.info {
+  padding: 15px;
+}
+
+.buttons button {
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  margin: 5px;
+  cursor: pointer;
+}
+
+#likeBtn {
+  background-color: #28a745;
+  color: white;
+}
+
+#dislikeBtn {
+  background-color: #dc3545;
+  color: white;
+}
+
+#buyBtn {
+  background-color: #ffc107;
+  color: white;
+}
+
+.cart {
+  margin-top: 20px;
+}
+
+.cart img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}

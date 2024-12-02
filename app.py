@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates/', static_folder = 'static/')
 
 # Configuration
 app.config["SECRET_KEY"] = os.urandom(32)  # Replace with a secure key
@@ -315,4 +315,5 @@ def dislike():
     return jsonify({"status": "success"})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 4000))
+    app.run(host="0.0.0.0", port=port)

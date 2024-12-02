@@ -1,0 +1,175 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+}
+
+.header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header .logout-button {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.header .logout-button:hover {
+    background-color: #c82333;
+}
+
+.container {
+    text-align: center;
+    margin: 50px auto;
+    width: 400px;
+    position: relative;
+}
+
+.card {
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    position: relative;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.clothing-info {
+    margin-bottom: 20px;
+}
+
+.clothing-info h2 {
+    margin: 0 0 10px 0;
+}
+
+.clothing-info p {
+    margin: 5px 0;
+    white-space: pre-wrap; /* To handle newline characters in description */
+}
+
+.clothing-info a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.clothing-info a:hover {
+    text-decoration: underline;
+}
+
+.image-carousel {
+    position: relative;
+}
+
+.image-carousel img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+#prev-image {
+    left: 10px;
+}
+
+#next-image {
+    right: 10px;
+}
+
+.carousel-button:hover {
+    background-color: rgba(0,0,0,0.7);
+}
+
+/* Action Buttons */
+.buttons {
+    margin-top: 20px;
+}
+
+.action-button {
+    padding: 15px 30px;
+    margin: 0 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.like {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.like:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+.dislike {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.dislike:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
+/* Swipe Animations */
+@keyframes swipeRight {
+    0% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(1000px); opacity: 0; }
+}
+
+@keyframes swipeLeft {
+    0% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(-1000px); opacity: 0; }
+}
+
+.swipe-right {
+    animation: swipeRight 0.5s forwards;
+}
+
+.swipe-left {
+    animation: swipeLeft 0.5s forwards;
+}
+
+/* Responsive Design */
+@media (max-width: 500px) {
+    .container {
+        width: 90%;
+    }
+
+    .action-button {
+        padding: 10px 20px;
+        margin: 0 10px;
+        font-size: 14px;
+    }
+
+    .carousel-button {
+        padding: 8px;
+        font-size: 16px;
+    }
+}

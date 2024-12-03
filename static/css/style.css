@@ -102,6 +102,26 @@ body {
     background-color: rgba(0,0,0,0.7);
 }
 
+/* Description Toggle Styles */
+.description {
+    cursor: pointer; /* Makes the cursor a pointer (hand icon) when hovering over the description */
+    color: #007bff; /* Blue text color */
+    text-decoration: underline; /* Adds underline to the text */
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.description:hover {
+    color: #0056b3; /* Darker blue on hover to indicate interaction */
+}
+
+.short-description {
+    display: inline; /* Visible by default */
+}
+
+.full-description {
+    display: none; /* Hidden by default */
+}
+
 /* Action Buttons */
 .buttons {
     margin-top: 20px;

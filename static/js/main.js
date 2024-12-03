@@ -47,6 +47,20 @@ document.addEventListener("DOMContentLoaded", function() {
     likeButton.addEventListener("click", handleLike);
     dislikeButton.addEventListener("click", handleDislike);
 
+    // Event Listener for Description Toggle
+    clothingDescription.addEventListener("click", function() {
+        const shortDesc = clothingDescription.querySelector(".short-description");
+        const fullDesc = clothingDescription.querySelector(".full-description");
+
+        if (shortDesc.style.display === "none") {
+            shortDesc.style.display = "inline";
+            fullDesc.style.display = "none";
+        } else {
+            shortDesc.style.display = "none";
+            fullDesc.style.display = "inline";
+        }
+    });
+
     /**
      * Function to fetch clothing items from the server
      */
@@ -77,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function displayNextClothing() {
         if (clothingQueue.length === 0) {
             clothingName.textContent = "No more items to display.";
-            clothingDescription.textContent = "";
+            clothingDescription.innerHTML = "";
             clothingPrize.textContent = "";
             clothingImage.src = "";
             clothingImage.alt = "No image available";
@@ -102,10 +116,17 @@ document.addEventListener("DOMContentLoaded", function() {
         if (!currentClothing) return;
 
         clothingName.textContent = currentClothing.name;
-        clothingDescription.textContent = currentClothing.description;
         clothingPrize.textContent = `Price: ${currentClothing.prize}`;
         clothingUrl.href = currentClothing.url;
         clothingUrl.textContent = "View Listing";
+
+        // Set short description as "Description" and the full description as the item's actual description
+        const fullDesc = currentClothing.description;
+
+        clothingDescription.innerHTML = `
+            <span class="short-description">Description</span>
+            <span class="full-description" style="display: none;">${fullDesc}</span>
+        `;
         updateImage();
     }
 

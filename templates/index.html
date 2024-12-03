@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Swiping App</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- Font Awesome -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/swipe.css') }}">
     <!-- Include Hammer.js for swipe gesture support -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
 </head>
@@ -15,22 +17,24 @@
     <div class="container">
         <div id="card-container">
             <div class="card" id="current-card">
-                <div class="clothing-info">
-                    <h2 id="clothing-name">Loading...</h2>
-                    <p id="clothing-description"></p>
-                    <p id="clothing-price"></p>
-                    <a id="clothing-url" href="#" target="_blank">View Listing</a>
-                </div>
                 <div class="image-carousel">
-                    <button id="prev-image" class="carousel-button">❮</button>
+                    <button id="prev-image" class="carousel-button"><i class="fas fa-chevron-left"></i></button>
                     <img id="clothing-image" src="" alt="Clothing Image">
-                    <button id="next-image" class="carousel-button">❯</button>
+                    <button id="next-image" class="carousel-button"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
-        </div>
-        <div class="buttons">
-            <button id="dislike-button" class="action-button dislike">Dislike</button>
-            <button id="like-button" class="action-button like">Like</button>
+            <div class="clothing-info">
+                <h2 id="clothing-name">Loading...</h2>
+                <div class = "flex">
+                <p id="clothing-price"></p>
+                <p><a id="clothing-url" href="#" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+            </div>
+            </div>
+            <p id="clothing-description"></p>
+            <div class="buttons">
+                <button id="dislike-button" class="action-button dislike"><i class="fas fa-times"></i></button>
+                <button id="like-button" class="action-button like"><i class="fas fa-heart"></i></button>
+            </div>
         </div>
     </div>
 

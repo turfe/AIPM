@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>Welcome, {{ current_user.username }}!</h1>
+        <img class = "logo" src = "{{ url_for('static', filename='media/green_logo.png') }}" alt="Profile Image">
         <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
     </div>
     <div class="container">

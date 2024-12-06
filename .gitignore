@@ -3,5 +3,5 @@
 frontend
 packasge-lock.json
 instance
-n_images
-myenv
+node_modules/*
+.DS_Store

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 from flask_login import (
     LoginManager,
     UserMixin,
@@ -14,9 +15,20 @@ import json
 import random
 import numpy as np
 import pandas as pd
+import re
+
+from typing import List
 from sklearn.metrics.pairwise import cosine_similarity
 
-app = Flask(__name__, template_folder='templates/', static_folder = 'static/')
+app = Flask(__name__)
+CORS(app, supports_credentials=True, resources={
+    r"/*": {
+        "origins": ["http://localhost:5173"],  # Your React frontend URL
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "supports_credentials": True
+    }
+})
 
 # Configuration
 app.config["SECRET_KEY"] = os.urandom(32)  # Replace with a secure key
@@ -66,28 +78,45 @@ def is_user_complete(user_likes, user_dislikes, user_seen, df) :
     
     return False
 
-def recommender_function(user_likes, user_dislikes, user_seen):
-    # Load the clothes data
-    clothes_data_path = os.path.join(app.root_path, "static", "data", "clothes_info.json")
-    with open(clothes_data_path, "r") as f:
-        clothes_json = json.load(f)
+def load_products_ts(products_path):
+    """
+    Parse the products.ts file to extract the products array.
+    """
+    with open(products_path, "r") as f:
+        ts_content = f.read()
     
-    total_items = len(clothes_json["item"])
+    # Extract the JSON-like part of the file (the array)
+    match = re.search(r"export const products: Product\[] = (\[.*\]);", ts_content, re.DOTALL)
+    if not match:
+        raise ValueError("Could not extract products array from products.ts")
+
+    # Parse the array as JSON
+    products_data = json.loads(match.group(1))
+    return products_data
+
+def recommender_function(user_likes, user_dislikes, user_seen, top_k=5):
+    # Load the products data
+    products = load_products_ts('src/data/full_products.ts')
+    
+    total_items = len(products)
     
     eligible_ids = set(range(total_items)) - set(user_likes) - set(user_dislikes) - set(user_seen)
     
     if not eligible_ids:
         return []  # No more items to recommend
     
-    user_profile = update_user_profile(user_likes, user_dislikes, user_seen, df)
-    if (is_user_complete(user_likes, user_dislikes, user_seen, df)) :
+    # Assuming `update_user_profile` and `retrieve_recommendations` are defined elsewhere
+    user_profile = update_user_profile(user_likes, user_dislikes, user_seen, products)
+    
+    if is_user_complete(user_likes, user_dislikes, user_seen, products):
         print("Recommending...")
-        recommended = retrieve_recommendations(user_profile, user_likes, user_dislikes, user_seen, df, top_k=top_k)
-    else :
+        recommended = retrieve_recommendations(user_profile, user_likes, user_dislikes, user_seen, products, top_k=top_k)
+    else:
         print("Random...")
         recommended = random.sample([i for i in eligible_ids], top_k)
-
+    
     return recommended
+
 
 #############################################################################################
 
@@ -147,74 +176,74 @@ def home():
     return redirect(url_for("login"))
 
 # Route: Register
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/register", methods=["POST"])
 def register():
-    if current_user.is_authenticated:
-        return redirect(url_for("index"))
-
-    if request.method == "POST":
-        username = request.form.get("username").strip()
-        password = request.form.get("password").strip()
-        confirm_password = request.form.get("confirm_password").strip()
-
-        # Basic validation
-        if not username or not password or not confirm_password:
-            flash("Please fill out all fields.", "warning")
-            return redirect(url_for("register"))
-
-        if password != confirm_password:
-            flash("Passwords do not match.", "warning")
-            return redirect(url_for("register"))
-
-        # Check if username already exists
-        existing_user = User.query.filter_by(username=username).first()
-        if existing_user:
-            flash("Username already exists. Please choose a different one.", "warning")
-            return redirect(url_for("register"))
-
-        # Create new user with hashed password
-        hashed_password = generate_password_hash(
-            password, method="pbkdf2:sha256", salt_length=8
-        )
-        new_user = User(username=username, password=hashed_password)
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
+    confirm_password = data.get("confirm_password")
+    
+    if password != confirm_password:
+        return jsonify({"message": "Passwords do not match"}), 400
+        
+    if User.query.filter_by(username=username).first():
+        return jsonify({"message": "Username already exists"}), 400
+        
+    hashed_password = generate_password_hash(password)
+    new_user = User(username=username, password=hashed_password)
+    
+    try:
         db.session.add(new_user)
         db.session.commit()
-
-        flash("Registration successful! Please log in.", "success")
-        return redirect(url_for("login"))
-
-    return render_template("register.html")
+        login_user(new_user)
+        return jsonify({
+            "user": {
+                "id": new_user.id,
+                "username": new_user.username
+            }
+        })
+    except Exception as e:
+        db.session.rollback()
+        print("Registration error:", str(e))
+        return jsonify({"message": str(e)}), 500
 
 # Route: Login
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods=["POST"])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for("index"))
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
 
-    if request.method == "POST":
-        username = request.form.get("username").strip()
-        password = request.form.get("password").strip()
-
-        # Fetch user from database
-        user = User.query.filter_by(username=username).first()
-        if not user or not check_password_hash(user.password, password):
-            flash("Invalid username or password.", "danger")
-            return redirect(url_for("login"))
-
-        # Log the user in
+    user = User.query.filter_by(username=username).first()
+    
+    if user and check_password_hash(user.password, password):
         login_user(user)
-        flash("Logged in successfully!", "success")
-        return redirect(url_for("index"))
-
-    return render_template("login.html")
+        return jsonify({
+            "user": {
+                "id": user.id,
+                "username": user.username
+            }
+        })
+    
+    return jsonify({"message": "Invalid credentials"}), 401
 
 # Route: Logout
-@app.route("/logout")
+@app.route("/logout", methods=["POST"])
 @login_required
 def logout():
     logout_user()
-    flash("You have been logged out.", "info")
-    return redirect(url_for("login"))
+    return jsonify({"message": "Logged out successfully"})
+
+@app.route("/check-auth")
+def check_auth():
+    if current_user.is_authenticated:
+        return jsonify({
+            "user": {
+                "id": current_user.id,
+                "username": current_user.username
+            }
+        })
+    return jsonify({"message": "Not authenticated"}), 401
 
 # Route: Swiping Page
 @app.route("/index")
@@ -226,49 +255,53 @@ def index():
 @app.route("/get_images", methods=["GET"])
 @login_required
 def get_images():
-    # Fetch user's likes
-    user_likes = [like.clothing_id for like in Like.query.filter_by(user_id=current_user.id).all()]
-    
-    # Fetch user's dislikes
-    user_dislikes = [dislike.clothing_id for dislike in Dislike.query.filter_by(user_id=current_user.id).all()]
-    
-    # Fetch user's seen clothes
-    user_seen = [seen.clothing_id for seen in Seen.query.filter_by(user_id=current_user.id).all()]
-    
-    # Call the recommender function to get next 2 clothing_ids
-    recommended_ids = recommender_function(user_likes, user_dislikes, user_seen)
-    
-    if not recommended_ids:
-        return jsonify({"images": []})  # No more items to recommend
-    
-    # Load the clothes data
-    clothes_data_path = os.path.join(app.root_path, "static", "data", "clothes_info.json")
-    with open(clothes_data_path, "r") as f:
-        clothes_json = json.load(f)
-    
-    # Prepare the data to send
-    recommended_items = []
-    for clothing_id in recommended_ids:
-        clothing = clothes_json["item"][clothing_id]
-        item_data = {
-            "clothing_id": clothing_id,  # Using index as unique ID
-            "name": clothing["name"],
-            "description": clothing["description"],
-            "prize": clothing["prize"],
-            "url": clothing["url"],
-            "images": [clothing["img1"], clothing["img2"], clothing["img3"]],
-        }
-        recommended_items.append(item_data)
-    
-    # Mark these clothing_ids as seen
-    for clothing_id in recommended_ids:
-        existing_seen = Seen.query.filter_by(user_id=current_user.id, clothing_id=clothing_id).first()
-        if not existing_seen:
-            new_seen = Seen(user_id=current_user.id, clothing_id=clothing_id)
-            db.session.add(new_seen)
-    db.session.commit()
-    
-    return jsonify({"images": recommended_items})
+    try:
+        # Fetch user's likes
+        user_likes = [like.clothing_id for like in Like.query.filter_by(user_id=current_user.id).all()]
+        print("User likes:", user_likes)
+        
+        # Fetch user's dislikes
+        user_dislikes = [dislike.clothing_id for dislike in Dislike.query.filter_by(user_id=current_user.id).all()]
+        print("User dislikes:", user_dislikes)
+        
+        # Fetch user's seen clothes
+        user_seen = [seen.clothing_id for seen in Seen.query.filter_by(user_id=current_user.id).all()]
+        print("User seen:", user_seen)
+        
+        # Call the recommender function to get next 2 clothing_ids
+        products_path = os.path.join(app.root_path, "src", "data", "full_products.ts")
+        recommended_ids = recommender_function(user_likes, user_dislikes, user_seen, top_k=2)
+        print("Recommended IDs:", recommended_ids)
+        
+        if not recommended_ids:
+            return jsonify({"images": []})
+        
+        # Load the products data
+        products = load_products_ts(products_path)
+        
+        # Prepare the data to send
+        recommended_items = []
+        for clothing_id in recommended_ids:
+            try:
+                clothing = products[int(clothing_id)]  # Access product by index
+                item_data = {
+                    "clothing_id": clothing_id,
+                    "name": clothing["name"],
+                    "description": clothing["description"],
+                    "price": clothing["price"],
+                    "url": clothing["externalUrl"],
+                    "images": [clothing["imageUrl"]],  # Only 1 image available in products.ts
+                }
+                recommended_items.append(item_data)
+            except (KeyError, IndexError) as e:
+                print(f"Error accessing clothing data for ID {clothing_id}: {e}")
+                continue
+        
+        return jsonify({"images": recommended_items})
+    except Exception as e:
+        print(f"Error in get_images: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 
 # Route: Like
 @app.route("/like", methods=["POST"])

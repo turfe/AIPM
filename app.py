@@ -58,6 +58,8 @@ def update_user_profile(user_likes, user_dislikes, user_seen, df):
     if disliked_embeddings:
         user_profile -= dislike_weight * np.mean(disliked_embeddings, axis=0)
 
+    print(user_seen)
+
     return user_profile
 
 def retrieve_recommendations(user_profile, user_likes, user_dislikes, user_seen, df, top_k=2):
@@ -106,11 +108,11 @@ def recommender_function(user_likes, user_dislikes, user_seen, top_k=5):
         return []  # No more items to recommend
     
     # Assuming `update_user_profile` and `retrieve_recommendations` are defined elsewhere
-    user_profile = update_user_profile(user_likes, user_dislikes, user_seen, products)
+    user_profile = update_user_profile(user_likes, user_dislikes, user_seen, df)
     
-    if is_user_complete(user_likes, user_dislikes, user_seen, products):
+    if is_user_complete(user_likes, user_dislikes, user_seen, df):
         print("Recommending...")
-        recommended = retrieve_recommendations(user_profile, user_likes, user_dislikes, user_seen, products, top_k=top_k)
+        recommended = retrieve_recommendations(user_profile, user_likes, user_dislikes, user_seen, df, top_k=top_k)
     else:
         print("Random...")
         recommended = random.sample([i for i in eligible_ids], top_k)
@@ -320,10 +322,18 @@ def like():
 
     # Add like to the database
     new_like = Like(user_id=current_user.id, clothing_id=clothing_id)
-    db.session.add(new_like)
-    db.session.commit()
-
-    return jsonify({"status": "success"})
+    
+    # Add to seen items
+    new_seen = Seen(user_id=current_user.id, clothing_id=clothing_id)
+    
+    try:
+        db.session.add(new_like)
+        db.session.add(new_seen)
+        db.session.commit()
+        return jsonify({"status": "success"})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"status": "failure", "message": str(e)}), 500
 
 # Route: Dislike
 @app.route("/dislike", methods=["POST"])
@@ -342,10 +352,18 @@ def dislike():
 
     # Add dislike to the database
     new_dislike = Dislike(user_id=current_user.id, clothing_id=clothing_id)
-    db.session.add(new_dislike)
-    db.session.commit()
-
-    return jsonify({"status": "success"})
+    
+    # Add to seen items
+    new_seen = Seen(user_id=current_user.id, clothing_id=clothing_id)
+    
+    try:
+        db.session.add(new_dislike)
+        db.session.add(new_seen)
+        db.session.commit()
+        return jsonify({"status": "success"})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"status": "failure", "message": str(e)}), 500
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 4000))

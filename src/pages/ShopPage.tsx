@@ -83,11 +83,14 @@ export const ShopPage: React.FC = () => {
       } else {
         await api.dislike(currentProduct.id);
       }
+      
+      // Fetch new recommendations immediately after successful swipe
+      await fetchMoreProducts();
+      setCurrentIndex(0); // Reset index to show new recommendations
+      setProducts([]); // Clear existing products
     } catch (error) {
       console.error('Error recording swipe:', error);
     }
-    
-    setCurrentIndex(prev => prev + 1);
   };
 
   const handleAddToCart = () => {

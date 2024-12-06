@@ -62,15 +62,19 @@ class ApiService {
 
   async like(clothingId: string) {
     return this.request('/like', {
-      method: 'POST',
-      body: JSON.stringify({ clothing_id: clothingId }),
+        method: 'POST',
+        body: JSON.stringify({ 
+            clothing_id: parseInt(clothingId, 10)
+        }),
     });
   }
 
   async dislike(clothingId: string) {
     return this.request('/dislike', {
       method: 'POST',
-      body: JSON.stringify({ clothing_id: clothingId }),
+      body: JSON.stringify({ 
+        clothing_id: parseInt(clothingId, 10)
+    }),
     });
   }
 }

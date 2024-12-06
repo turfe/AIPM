@@ -309,60 +309,118 @@ def get_images():
 @app.route("/like", methods=["POST"])
 @login_required
 def like():
-    data = request.get_json()
-    clothing_id = data.get("clothing_id")
-
-    if clothing_id is None:
-        return jsonify({"status": "failure", "message": "No clothing ID provided."}), 400
-
-    # Check if already liked
-    existing_like = Like.query.filter_by(user_id=current_user.id, clothing_id=clothing_id).first()
-    if existing_like:
-        return jsonify({"status": "failure", "message": "Already liked this item."}), 400
-
-    # Add like to the database
-    new_like = Like(user_id=current_user.id, clothing_id=clothing_id)
-    
-    # Add to seen items
-    new_seen = Seen(user_id=current_user.id, clothing_id=clothing_id)
-    
     try:
+        data = request.get_json()
+        clothing_id = int(data.get("clothing_id"))
+
+        if clothing_id is None:
+            return jsonify({"status": "failure", "message": "No clothing ID provided."}), 400
+
+        # Check if already liked
+        existing_like = Like.query.filter_by(user_id=current_user.id, clothing_id=clothing_id).first()
+        if existing_like:
+            return jsonify({"status": "failure", "message": "Already liked this item."}), 400
+
+        # Add like to the database
+        new_like = Like(user_id=current_user.id, clothing_id=clothing_id)
+        new_seen = Seen(user_id=current_user.id, clothing_id=clothing_id)
+        
         db.session.add(new_like)
         db.session.add(new_seen)
         db.session.commit()
-        return jsonify({"status": "success"})
+
+        # Get new recommendations immediately
+        user_likes = [like.clothing_id for like in Like.query.filter_by(user_id=current_user.id).all()]
+        user_dislikes = [dislike.clothing_id for dislike in Dislike.query.filter_by(user_id=current_user.id).all()]
+        user_seen = [seen.clothing_id for seen in Seen.query.filter_by(user_id=current_user.id).all()]
+        
+        recommended_ids = recommender_function(user_likes, user_dislikes, user_seen, top_k=2)
+        products = load_products_ts(os.path.join(app.root_path, "src", "data", "full_products.ts"))
+        
+        recommended_items = []
+        for clothing_id in recommended_ids:
+            try:
+                clothing = products[int(clothing_id)]
+                item_data = {
+                    "clothing_id": clothing_id,
+                    "name": clothing["name"],
+                    "description": clothing["description"],
+                    "price": clothing["price"],
+                    "url": clothing["externalUrl"],
+                    "images": [clothing["imageUrl"]],
+                }
+                recommended_items.append(item_data)
+            except (KeyError, IndexError) as e:
+                print(f"Error accessing clothing data for ID {clothing_id}: {e}")
+                continue
+
+        return jsonify({
+            "status": "success",
+            "new_recommendations": recommended_items
+        })
+
     except Exception as e:
         db.session.rollback()
+        print(f"Error in like route: {str(e)}")
         return jsonify({"status": "failure", "message": str(e)}), 500
 
 # Route: Dislike
 @app.route("/dislike", methods=["POST"])
 @login_required
 def dislike():
-    data = request.get_json()
-    clothing_id = data.get("clothing_id")
-
-    if clothing_id is None:
-        return jsonify({"status": "failure", "message": "No clothing ID provided."}), 400
-
-    # Check if already disliked
-    existing_dislike = Dislike.query.filter_by(user_id=current_user.id, clothing_id=clothing_id).first()
-    if existing_dislike:
-        return jsonify({"status": "failure", "message": "Already disliked this item."}), 400
-
-    # Add dislike to the database
-    new_dislike = Dislike(user_id=current_user.id, clothing_id=clothing_id)
-    
-    # Add to seen items
-    new_seen = Seen(user_id=current_user.id, clothing_id=clothing_id)
-    
     try:
+        data = request.get_json()
+        clothing_id = int(data.get("clothing_id"))
+
+        if clothing_id is None:
+            return jsonify({"status": "failure", "message": "No clothing ID provided."}), 400
+
+        # Check if already liked
+        existing_dislike = Dislike.query.filter_by(user_id=current_user.id, clothing_id=clothing_id).first()
+        if existing_dislike:
+            return jsonify({"status": "failure", "message": "Already liked this item."}), 400
+
+        # Add like to the database
+        new_dislike = Dislike(user_id=current_user.id, clothing_id=clothing_id)
+        new_seen = Seen(user_id=current_user.id, clothing_id=clothing_id)
+        
         db.session.add(new_dislike)
         db.session.add(new_seen)
         db.session.commit()
-        return jsonify({"status": "success"})
+
+        # Get new recommendations immediately
+        user_likes = [like.clothing_id for like in Like.query.filter_by(user_id=current_user.id).all()]
+        user_dislikes = [dislike.clothing_id for dislike in Dislike.query.filter_by(user_id=current_user.id).all()]
+        user_seen = [seen.clothing_id for seen in Seen.query.filter_by(user_id=current_user.id).all()]
+        
+        recommended_ids = recommender_function(user_likes, user_dislikes, user_seen, top_k=2)
+        products = load_products_ts(os.path.join(app.root_path, "src", "data", "full_products.ts"))
+        
+        recommended_items = []
+        for clothing_id in recommended_ids:
+            try:
+                clothing = products[int(clothing_id)]
+                item_data = {
+                    "clothing_id": clothing_id,
+                    "name": clothing["name"],
+                    "description": clothing["description"],
+                    "price": clothing["price"],
+                    "url": clothing["externalUrl"],
+                    "images": [clothing["imageUrl"]],
+                }
+                recommended_items.append(item_data)
+            except (KeyError, IndexError) as e:
+                print(f"Error accessing clothing data for ID {clothing_id}: {e}")
+                continue
+
+        return jsonify({
+            "status": "success",
+            "new_recommendations": recommended_items
+        })
+
     except Exception as e:
         db.session.rollback()
+        print(f"Error in dislike route: {str(e)}")
         return jsonify({"status": "failure", "message": str(e)}), 500
 
 if __name__ == "__main__":

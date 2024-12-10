@@ -58,7 +58,6 @@ def update_user_profile(user_likes, user_dislikes, user_seen, df):
     if disliked_embeddings:
         user_profile -= dislike_weight * np.mean(disliked_embeddings, axis=0)
 
-    print(user_seen)
 
     return user_profile
 

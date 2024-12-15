@@ -257,7 +257,9 @@ def index():
 
 # Route: Get Images
 @app.route("/get_images", methods=["GET"])
+@login_required
 def get_images():
+    print(f"User authenticated: {current_user.is_authenticated}")
     try:
         # Fetch user's likes
         user_likes = [like.clothing_id for like in Like.query.filter_by(user_id=current_user.id).all()]

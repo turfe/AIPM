@@ -18,7 +18,6 @@ export const ShopPage: React.FC = () => {
         credentials: 'include',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
         }
       });
       

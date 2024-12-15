@@ -252,13 +252,11 @@ def check_auth():
 
 # Route: Swiping Page (if needed)
 @app.route("/index", methods=["GET"])
-@login_required
 def index():
     return render_template("index.html")
 
 # Route: Get Images
 @app.route("/get_images", methods=["GET"])
-@login_required
 def get_images():
     try:
         # Fetch user's likes

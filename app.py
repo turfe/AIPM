@@ -34,8 +34,6 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SECRET_KEY'] = os.urandom(32)
 
-CORS(app, supports_credentials=True, origins=['https://polyswipe.netlify.app'])
-
 # Configuration
 app.config["SECRET_KEY"] = os.urandom(32)  # Replace with a secure key
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"  # SQLite database
@@ -46,6 +44,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.login_view = "login"  # Redirect to 'login' for @login_required
 login_manager.init_app(app)
+CORS(app, supports_credentials=True, origins=['https://polyswipe.netlify.app'])
 
 
 #############################################################################################
@@ -215,7 +214,7 @@ def register():
         return jsonify({"message": str(e)}), 500
 
 # Route: Login
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods=["POST", "GET"])
 def login():
     data = request.get_json()
     username = data.get("username")

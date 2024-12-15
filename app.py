@@ -29,7 +29,7 @@ app = Flask(__name__)
 #         "supports_credentials": True
 #     }
 # })
-CORS(app, supports_credentials=True, origins="*")
+CORS(app, supports_credentials=True, origins=['https://polyswipe.netlify.app'])
 
 # Configuration
 app.config["SECRET_KEY"] = os.urandom(32)  # Replace with a secure key

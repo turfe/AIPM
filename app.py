@@ -32,7 +32,6 @@ app = Flask(__name__)
 
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
-app.config['SECRET_KEY'] = os.urandom(32)
 
 # Configuration
 app.config["SECRET_KEY"] = os.urandom(32)  # Replace with a secure key
@@ -201,13 +200,15 @@ def register():
     try:
         db.session.add(new_user)
         db.session.commit()
-        login_user(new_user)
-        return jsonify({
-            "user": {
-                "id": new_user.id,
-                "username": new_user.username
-            }
-        })
+
+        return redirect(url_for("login"))
+        # login_user(new_user)
+        # return jsonify({
+        #     "user": {
+        #         "id": new_user.id,
+        #         "username": new_user.username
+        #     }
+        # })
     except Exception as e:
         db.session.rollback()
         print("Registration error:", str(e))
@@ -224,12 +225,13 @@ def login():
     
     if user and check_password_hash(user.password, password):
         login_user(user)
-        return jsonify({
-            "user": {
-                "id": user.id,
-                "username": user.username
-            }
-        })
+        # return jsonify({
+        #     "user": {
+        #         "id": user.id,
+        #         "username": user.username
+        #     }
+        # })
+        return redirect(url_for("index"))
     
     return jsonify({"message": "Invalid credentials"}), 401
 

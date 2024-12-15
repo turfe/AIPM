@@ -13,7 +13,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:4000',
+        target: 'https://aipm-qyby.onrender.com',
         changeOrigin: true,
         rewrite: (path: string) => path.replace(/^\/api/, ''),
       },

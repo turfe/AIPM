@@ -41,7 +41,7 @@ export const ShopPage: React.FC = () => {
               parseFloat(item.prize.replace('£', '')) : 
               item.prize,
             description: item.description || '',
-            imageUrl: Array.isArray(item.images) ? item.images[0] : item.images,
+            images: item.images,
             brand: item.name?.split(' ')[0] || 'Unknown',
             size: item.name?.split(' - ')[1] || '',
             condition: item.description?.split('CONDITION: ')[1]?.split('\n')[0] || '',

@@ -1,7 +1,7 @@
-import React from 'react';
-import { ExternalLink, Trash2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { ExternalLink, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Product } from '../types/product';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface ProductCardProps {
   product: Product;
@@ -14,6 +14,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onRemove,
   removeLabel = "Remove" 
 }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => 
+      prev === product.images.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const previousImage = () => {
+    setCurrentImageIndex((prev) => 
+      prev === 0 ? product.images.length - 1 : prev - 1
+    );
+  };
+
   return (
     <motion.div
       layout
@@ -23,11 +37,40 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       className="bg-white rounded-xl shadow-md overflow-hidden"
     >
       <div className="relative">
-        <img
-          src={product.imageUrl}
-          alt={product.name}
-          className="w-full h-48 object-cover"
-        />
+        <div className="relative">
+          <AnimatePresence>
+            <motion.img
+              key={currentImageIndex}
+              src={product.images[currentImageIndex].url}
+              alt={product.images[currentImageIndex].alt}
+              className="w-full h-48 object-cover"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            />
+          </AnimatePresence>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              previousImage();
+            }}
+            className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/50 text-white p-1 rounded-full"
+            aria-label="Previous image"
+          >
+            <ChevronLeft size={16} />
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              nextImage();
+            }}
+            className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/50 text-white p-1 rounded-full"
+            aria-label="Next image"
+          >
+            <ChevronRight size={16} />
+          </button>
+        </div>
         <div className="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md">
           <span className="text-lg font-bold text-green-600">${product.price}</span>
         </div>
@@ -40,8 +83,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             {product.condition}
           </span>
         </div>
-        
-        <p className="text-sm text-gray-600 mb-4">{product.description}</p>
         
         <div className="flex justify-between items-center">
           <div className="text-sm text-gray-500">

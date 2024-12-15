@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion, PanInfo, useAnimation } from 'framer-motion';
-import { Heart, X, ExternalLink, ShoppingCart } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, PanInfo, useAnimation, AnimatePresence } from 'framer-motion';
+import { Heart, X, ShoppingCart, ChevronDown, ChevronUp, Maximize2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Product } from '../types/product';
 
 interface SwipeCardProps {
@@ -11,7 +11,10 @@ interface SwipeCardProps {
 
 export const SwipeCard: React.FC<SwipeCardProps> = ({ product, onSwipe, onAddToCart }) => {
   const controls = useAnimation();
-  const [isExiting, setIsExiting] = React.useState(false);
+  const [isExiting, setIsExiting] = useState(false);
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleDragEnd = async (_: any, info: PanInfo) => {
     if (isExiting) return;
@@ -33,7 +36,6 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({ product, onSwipe, onAddToC
 
   const handleButtonClick = async (direction: 'left' | 'right') => {
     if (isExiting) return;
-    
     setIsExiting(true);
     await controls.start({
       x: direction === 'right' ? 1000 : -1000,
@@ -45,12 +47,8 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({ product, onSwipe, onAddToC
 
   const handleAddToCart = async () => {
     if (isExiting) return;
-    
     setIsExiting(true);
-    await controls.start({
-      scale: 1.1,
-      transition: { duration: 0.2 }
-    });
+    await controls.start({ scale: 1.1, transition: { duration: 0.2 } });
     await controls.start({
       scale: 0.8,
       opacity: 0,
@@ -60,25 +58,20 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({ product, onSwipe, onAddToC
     onSwipe('left');
   };
 
-  const handleBuyNow = async (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    if (isExiting) return;
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => 
+      prev === product.images.length - 1 ? 0 : prev + 1
+    );
+  };
 
-    setIsExiting(true);
-    await controls.start({
-      scale: 1.1,
-      transition: { duration: 0.2 }
-    });
-    await controls.start({
-      y: -100,
-      opacity: 0,
-      transition: { duration: 0.3 }
-    });
-    window.open(product.externalUrl, '_blank');
-    onSwipe('left');
+  const previousImage = () => {
+    setCurrentImageIndex((prev) => 
+      prev === 0 ? product.images.length - 1 : prev - 1
+    );
   };
 
   return (
+    <>
     <motion.div
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
@@ -86,74 +79,118 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({ product, onSwipe, onAddToC
       animate={controls}
       initial={{ x: 0, opacity: 1 }}
       whileDrag={{ scale: 1.05 }}
-      className="relative w-full max-w-sm bg-white rounded-xl shadow-xl"
+      className="absolute w-full max-w-sm bg-white rounded-xl shadow-xl"
     >
       <div className="relative">
-        <img
-          src={product.imageUrl}
-          alt={product.name}
-          className="w-full h-96 object-cover rounded-t-xl"
-        />
-        <div className="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md">
-          <span className="text-lg font-bold text-green-600">${product.price}</span>
+        <div className="relative cursor-pointer group">
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={currentImageIndex}
+              src={product.images[currentImageIndex].url}
+              alt={product.images[currentImageIndex].alt}
+              className="w-full h-96 object-cover rounded-t-xl"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            />
+          </AnimatePresence>
+          
+          <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                previousImage();
+              }}
+              className="p-2 bg-black/75 backdrop-blur-sm rounded-full text-white hover:bg-black/90 transition-colors"
+              aria-label="Previous image"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                nextImage();
+              }}
+              className="p-2 bg-black/75 backdrop-blur-sm rounded-full text-white hover:bg-black/90 transition-colors"
+              aria-label="Next image"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+            {product.images.map((_, index) => (
+              <button
+                key={index}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentImageIndex(index);
+                }}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  index === currentImageIndex ? 'bg-white' : 'bg-white/50'
+                }`}
+                aria-label={`Go to image ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="absolute top-4 left-4 bg-purple-600/75 backdrop-blur-sm px-3 py-1.5 rounded-full">
+          <span className="text-lg font-medium text-white">${product.price}</span>
         </div>
       </div>
       
       <div className="p-6">
-        <div className="flex justify-between items-start mb-2">
-          <h2 className="text-xl font-bold">{product.name}</h2>
-          <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
+        <div className="flex justify-between items-start mb-4">
+          <h2 className="text-xl font-medium">{product.name}</h2>
+          <span className="px-2 py-0.5 bg-purple-100 text-purple-600 rounded-full text-sm">
             {product.condition}
           </span>
         </div>
         
-        <p className="text-gray-600 mb-4">{product.description}</p>
-        
-        <div className="flex justify-between items-center mb-4">
-          <span className="text-sm text-gray-500">Size: {product.size}</span>
-          <span className="text-sm font-medium text-gray-700">{product.brand}</span>
+        <div className="mb-6">
+          <button
+            onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+            className="w-full text-left flex items-center justify-between text-gray-600 hover:text-gray-900"
+          >
+            <p className={`${isDescriptionExpanded ? '' : 'line-clamp-2'}`}>
+              {product.description}
+            </p>
+            {isDescriptionExpanded ? (
+              <ChevronUp className="flex-shrink-0 ml-2" />
+            ) : (
+              <ChevronDown className="flex-shrink-0 ml-2" />
+            )}
+          </button>
         </div>
 
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-center gap-6">
           <button
             onClick={() => handleButtonClick('left')}
-            className="p-3 bg-red-100 rounded-full text-red-600 hover:bg-red-200 transition-colors"
+            className="p-4 bg-red-100 rounded-full text-red-600 hover:bg-red-200 transition-colors"
             aria-label="Dislike"
-            disabled={isExiting}
           >
             <X size={24} />
           </button>
           
           <button
             onClick={handleAddToCart}
-            className="p-3 bg-blue-100 rounded-full text-blue-600 hover:bg-blue-200 transition-colors"
-            aria-label="Add to cart"
-            disabled={isExiting}
+            className="p-4 bg-purple-100 rounded-full text-purple-600 hover:bg-purple-200 transition-colors"
+            aria-label="Add to Cart"
           >
             <ShoppingCart size={24} />
           </button>
           
-          <a
-            href={product.externalUrl}
-            onClick={handleBuyNow}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors"
-          >
-            <ExternalLink size={18} />
-            Buy Now
-          </a>
-          
           <button
             onClick={() => handleButtonClick('right')}
-            className="p-3 bg-green-100 rounded-full text-green-600 hover:bg-green-200 transition-colors"
+            className="p-4 bg-green-100 rounded-full text-green-600 hover:bg-green-200 transition-colors"
             aria-label="Like"
-            disabled={isExiting}
           >
             <Heart size={24} />
           </button>
         </div>
       </div>
     </motion.div>
+    </>
   );
 };

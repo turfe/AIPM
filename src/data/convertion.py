@@ -47,13 +47,22 @@ def convert_clothes_to_products(input_file, output_file):
         )
         condition = normalize_condition(condition_line.split(":", 1)[1].strip())
 
-        # Create product dictionary
+        images = []
+        img_keys = ['img1', 'img2', 'img3']
+        for i, key in enumerate(img_keys, start=1):
+            img_url = item.get(key)
+            if img_url:
+                images.append({
+                    "url": img_url,
+                    "alt": f"Image {i}"
+                })
+
         product = {
             "id": str(idx),
             "name": item.get("name", "").split("-")[0].strip(),
-            "price": float(item.get("prize", "£0").replace('£', '').replace(',', '')),
+            "price": round(float(item.get("prize", "£0").replace('£', '').replace(',', '')) / 1.13, 2),
             "description": item.get("description", ""),
-            "imageUrl": item.get("img1", ""),
+            "images": images,
             "brand": item.get("name", "").split()[0] if item.get("name") else "Unknown",
             "size": item.get("name", "").split('-')[1].strip() if '-' in item.get("name", "") else "Unknown",
             "condition": condition,

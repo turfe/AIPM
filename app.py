@@ -291,7 +291,7 @@ def get_images():
                     "description": clothing["description"],
                     "price": clothing["price"],
                     "url": clothing["externalUrl"],
-                    "images": [clothing["imageUrl"]],  # Only 1 image available in products.ts
+                    "images": clothing["images"],
                 }
                 recommended_items.append(item_data)
             except (KeyError, IndexError) as e:
@@ -346,7 +346,7 @@ def like():
                     "description": clothing["description"],
                     "price": clothing["price"],
                     "url": clothing["externalUrl"],
-                    "images": [clothing["imageUrl"]],
+                    "images": clothing["images"],
                 }
                 recommended_items.append(item_data)
             except (KeyError, IndexError) as e:
@@ -405,7 +405,7 @@ def dislike():
                     "description": clothing["description"],
                     "price": clothing["price"],
                     "url": clothing["externalUrl"],
-                    "images": [clothing["imageUrl"]],
+                    "images": clothing["images"],
                 }
                 recommended_items.append(item_data)
             except (KeyError, IndexError) as e:

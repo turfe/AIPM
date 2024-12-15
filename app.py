@@ -29,6 +29,11 @@ app = Flask(__name__)
 #         "supports_credentials": True
 #     }
 # })
+
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SECRET_KEY'] = os.urandom(32)
+
 CORS(app, supports_credentials=True, origins=['https://polyswipe.netlify.app'])
 
 # Configuration

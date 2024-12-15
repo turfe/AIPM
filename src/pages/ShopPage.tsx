@@ -36,9 +36,9 @@ export const ShopPage: React.FC = () => {
           return {
             id: item.clothing_id.toString(),
             name: item.name,
-            price: typeof item.prize === 'string' ? 
-              parseFloat(item.prize.replace('£', '')) : 
-              item.prize,
+            price: typeof item.price === 'string' ? 
+              parseFloat(item.price.replace('£', '')) : 
+              item.price,
             description: item.description || '',
             images: item.images,
             brand: item.name?.split(' ')[0] || 'Unknown',

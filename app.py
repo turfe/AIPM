@@ -21,47 +21,40 @@ from typing import List
 from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
-# CORS(app, supports_credentials=True, resources={
-#     r"/*": {
-#         "origins": '*',  # Your React frontend URL
-#         "methods": ["GET", "POST", "OPTIONS"],
-#         "allow_headers": ["Content-Type", "Authorization"],
-#         "supports_credentials": True
-#     }
-# })
-
-app.config['SESSION_COOKIE_SAMESITE'] = 'None'
-app.config['SESSION_COOKIE_SECURE'] = True
 
 # Configuration
-app.config["SECRET_KEY"] = os.urandom(32)  # Replace with a secure key
+# Use a consistent SECRET_KEY from environment variable or fallback to a default (not recommended for production)
+app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY', 'your-default-secret-key')  # Replace with a secure key in production
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"  # SQLite database
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# Session cookie settings
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+app.config['SESSION_COOKIE_SECURE'] = True
 
 # Initialize extensions
 db = SQLAlchemy(app)
 login_manager = LoginManager()
-login_manager.login_view = "login"  # Redirect to 'login' for @login_required
 login_manager.init_app(app)
-CORS(app, supports_credentials=True, origins=['https://polyswipe.netlify.app'])
+login_manager.login_view = "login"  # Endpoint name (not used with custom handler)
 
+# Configure CORS
+CORS(app, supports_credentials=True, origins=['https://polyswipe.netlify.app'])
 
 #############################################################################################
 # Recommender
 df = pd.read_pickle("embeds.pkl")
-top_k = 2 # How many items to recommend per request
+top_k = 2  # How many items to recommend per request
 
 def update_user_profile(user_likes, user_dislikes, user_seen, df):
     liked_embeddings = [df.iloc[idx]['embedding'] for idx in user_likes]
     disliked_embeddings = [df.iloc[idx]['embedding'] for idx in user_dislikes]
-
 
     user_profile = np.mean(liked_embeddings, axis=0) 
 
     dislike_weight = 0.5 
     if disliked_embeddings:
         user_profile -= dislike_weight * np.mean(disliked_embeddings, axis=0)
-
 
     return user_profile
 
@@ -75,12 +68,10 @@ def retrieve_recommendations(user_profile, user_likes, user_dislikes, user_seen,
     top_k_indices = [unseen_indices[i] for i in np.argsort(unseen_similarities)[::-1][:top_k]]
     return top_k_indices
 
-
 # TODO: Add Preferences
-def is_user_complete(user_likes, user_dislikes, user_seen, df) :
-    if (len(user_likes) > 2) :
+def is_user_complete(user_likes, user_dislikes, user_seen, df):
+    if len(user_likes) > 2:
         return True
-    
     return False
 
 def load_products_ts(products_path):
@@ -110,7 +101,7 @@ def recommender_function(user_likes, user_dislikes, user_seen, top_k=5):
     if not eligible_ids:
         return []  # No more items to recommend
     
-    # Assuming `update_user_profile` and `retrieve_recommendations` are defined elsewhere
+    # Update user profile
     user_profile = update_user_profile(user_likes, user_dislikes, user_seen, df)
     
     if is_user_complete(user_likes, user_dislikes, user_seen, df):
@@ -118,14 +109,11 @@ def recommender_function(user_likes, user_dislikes, user_seen, top_k=5):
         recommended = retrieve_recommendations(user_profile, user_likes, user_dislikes, user_seen, df, top_k=top_k)
     else:
         print("Random...")
-        recommended = random.sample([i for i in eligible_ids], top_k)
+        recommended = random.sample(list(eligible_ids), min(top_k, len(eligible_ids)))
     
     return recommended
 
-
 #############################################################################################
-
-
 # User Model
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)  # Required for Flask-Login
@@ -175,6 +163,11 @@ with app.app_context():
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# Custom Unauthorized Handler
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return jsonify({"message": "Unauthorized access"}), 401
+
 # Route: Home (Redirect to Login)
 @app.route("/")
 def home():
@@ -188,6 +181,9 @@ def register():
     password = data.get("password")
     confirm_password = data.get("confirm_password")
     
+    if not username or not password or not confirm_password:
+        return jsonify({"message": "Username and passwords are required."}), 400
+
     if password != confirm_password:
         return jsonify({"message": "Passwords do not match"}), 400
         
@@ -200,38 +196,38 @@ def register():
     try:
         db.session.add(new_user)
         db.session.commit()
-
-        return redirect(url_for("login"))
-        # login_user(new_user)
-        # return jsonify({
-        #     "user": {
-        #         "id": new_user.id,
-        #         "username": new_user.username
-        #     }
-        # })
+        login_user(new_user)
+        return jsonify({
+            "user": {
+                "id": new_user.id,
+                "username": new_user.username
+            }
+        }), 201
     except Exception as e:
         db.session.rollback()
         print("Registration error:", str(e))
-        return jsonify({"message": str(e)}), 500
+        return jsonify({"message": "Registration failed"}), 500
 
-# Route: Login
-@app.route("/login", methods=["POST", "GET"])
+# Route: Login (POST Only)
+@app.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
     username = data.get("username")
     password = data.get("password")
 
+    if not username or not password:
+        return jsonify({"message": "Username and password are required."}), 400
+
     user = User.query.filter_by(username=username).first()
     
     if user and check_password_hash(user.password, password):
         login_user(user)
-        # return jsonify({
-        #     "user": {
-        #         "id": user.id,
-        #         "username": user.username
-        #     }
-        # })
-        return redirect(url_for("index"))
+        return jsonify({
+            "user": {
+                "id": user.id,
+                "username": user.username
+            }
+        }), 200
     
     return jsonify({"message": "Invalid credentials"}), 401
 
@@ -240,9 +236,10 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return jsonify({"message": "Logged out successfully"})
+    return jsonify({"message": "Logged out successfully"}), 200
 
-@app.route("/check-auth")
+# Route: Check Authentication
+@app.route("/check-auth", methods=["GET"])
 def check_auth():
     if current_user.is_authenticated:
         return jsonify({
@@ -250,11 +247,11 @@ def check_auth():
                 "id": current_user.id,
                 "username": current_user.username
             }
-        })
+        }), 200
     return jsonify({"message": "Not authenticated"}), 401
 
-# Route: Swiping Page
-@app.route("/index")
+# Route: Swiping Page (if needed)
+@app.route("/index", methods=["GET"])
 @login_required
 def index():
     return render_template("index.html")
@@ -282,7 +279,7 @@ def get_images():
         print("Recommended IDs:", recommended_ids)
         
         if not recommended_ids:
-            return jsonify({"images": []})
+            return jsonify({"images": []}), 200
         
         # Load the products data
         products = load_products_ts(products_path)
@@ -305,11 +302,10 @@ def get_images():
                 print(f"Error accessing clothing data for ID {clothing_id}: {e}")
                 continue
         
-        return jsonify({"images": recommended_items})
+        return jsonify({"images": recommended_items}), 200
     except Exception as e:
         print(f"Error in get_images: {str(e)}")
         return jsonify({"error": str(e)}), 500
-
 
 # Route: Like
 @app.route("/like", methods=["POST"])
@@ -317,10 +313,12 @@ def get_images():
 def like():
     try:
         data = request.get_json()
-        clothing_id = int(data.get("clothing_id"))
+        clothing_id = data.get("clothing_id")
 
         if clothing_id is None:
             return jsonify({"status": "failure", "message": "No clothing ID provided."}), 400
+
+        clothing_id = int(clothing_id)
 
         # Check if already liked
         existing_like = Like.query.filter_by(user_id=current_user.id, clothing_id=clothing_id).first()
@@ -363,12 +361,12 @@ def like():
         return jsonify({
             "status": "success",
             "new_recommendations": recommended_items
-        })
+        }), 200
 
     except Exception as e:
         db.session.rollback()
         print(f"Error in like route: {str(e)}")
-        return jsonify({"status": "failure", "message": str(e)}), 500
+        return jsonify({"status": "failure", "message": "An error occurred while processing your request."}), 500
 
 # Route: Dislike
 @app.route("/dislike", methods=["POST"])
@@ -376,17 +374,19 @@ def like():
 def dislike():
     try:
         data = request.get_json()
-        clothing_id = int(data.get("clothing_id"))
+        clothing_id = data.get("clothing_id")
 
         if clothing_id is None:
             return jsonify({"status": "failure", "message": "No clothing ID provided."}), 400
 
-        # Check if already liked
+        clothing_id = int(clothing_id)
+
+        # Check if already disliked
         existing_dislike = Dislike.query.filter_by(user_id=current_user.id, clothing_id=clothing_id).first()
         if existing_dislike:
-            return jsonify({"status": "failure", "message": "Already liked this item."}), 400
+            return jsonify({"status": "failure", "message": "Already disliked this item."}), 400
 
-        # Add like to the database
+        # Add dislike to the database
         new_dislike = Dislike(user_id=current_user.id, clothing_id=clothing_id)
         new_seen = Seen(user_id=current_user.id, clothing_id=clothing_id)
         
@@ -422,12 +422,12 @@ def dislike():
         return jsonify({
             "status": "success",
             "new_recommendations": recommended_items
-        })
+        }), 200
 
     except Exception as e:
         db.session.rollback()
         print(f"Error in dislike route: {str(e)}")
-        return jsonify({"status": "failure", "message": str(e)}), 500
+        return jsonify({"status": "failure", "message": "An error occurred while processing your request."}), 500
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 4000))

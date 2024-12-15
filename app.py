@@ -21,14 +21,15 @@ from typing import List
 from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True, resources={
-    r"/*": {
-        "origins": ["http://localhost:5173"],  # Your React frontend URL
-        "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization"],
-        "supports_credentials": True
-    }
-})
+# CORS(app, supports_credentials=True, resources={
+#     r"/*": {
+#         "origins": '*',  # Your React frontend URL
+#         "methods": ["GET", "POST", "OPTIONS"],
+#         "allow_headers": ["Content-Type", "Authorization"],
+#         "supports_credentials": True
+#     }
+# })
+CORS(app, supports_credentials=True, origins="*")
 
 # Configuration
 app.config["SECRET_KEY"] = os.urandom(32)  # Replace with a secure key

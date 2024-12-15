@@ -94,7 +94,7 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({ product, onSwipe, onAddToC
             onOpenModal={() => setIsImageModalOpen(true)}
           />
           <div className="absolute top-4 left-4 bg-purple-600/75 backdrop-blur-sm px-3 py-1.5 rounded-full">
-            <span className="text-lg font-medium text-white">${product.price}</span>
+            <span className="text-lg font-medium text-white">CHF {product.price}</span>
           </div>
         </div>
         

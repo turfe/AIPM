@@ -72,14 +72,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </button>
         </div>
         <div className="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md">
-          <span className="text-lg font-bold text-green-600">${product.price}</span>
+          <span className="text-lg font-bold text-green-600">CHF {product.price}</span>
         </div>
       </div>
       
       <div className="p-4">
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-semibold">{product.name}</h3>
-          <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
+          <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-sm text-center">
             {product.condition}
           </span>
         </div>

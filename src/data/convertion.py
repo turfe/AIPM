@@ -3,18 +3,27 @@ import re
 
 def normalize_condition(condition):
     """
-    Normalize condition descriptions to one or two words, capitalize first letters.
+    Normalize condition descriptions to standardized format.
+    Returns 'Good', 'Very Good', or 'Unknown'
     """
-    condition_mapping = {
-        "good": "Good",
-        "very good": "Very Good",
-        "bad": "Bad",
-        "very bad": "Very Bad"
-    }
-    for key, value in condition_mapping.items():
-        if key in condition.lower():
-            return value
-    return "Unknown"
+    # Remove leading/trailing whitespace and lowercase for comparison
+    condition = condition.strip().lower()
+    
+    # Handle common variations
+    if 'very good' in condition:
+        return 'Very Good'
+    elif 'good' in condition:
+        # If it has defects mentioned, still mark as "Good"
+        # Example: "good - marks on front" -> "Good"
+        return 'Good'
+    elif 'excellent' in condition:
+        return 'Very Good'
+    elif 'fair' in condition:
+        return 'Good'
+    elif 'bad' in condition:
+        return 'Unknown'
+    
+    return 'Unknown'
 
 def extract_size(description):
     """

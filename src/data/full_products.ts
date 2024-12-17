@@ -46,7 +46,7 @@ export const products: Product[] = [
     ],
     "brand": "Carhartt",
     "size": "31W UK 12 Blue Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-bottoms/products/vintage-carhartt-jeans-womens-blue-31-waist-371476"
   },
   {
@@ -118,7 +118,7 @@ export const products: Product[] = [
     ],
     "brand": "501",
     "size": "30W UK 10 Blue Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-bottoms/products/vintage-501-levis-jeans-womens-blue-30-waist-370676"
   },
   {
@@ -142,7 +142,7 @@ export const products: Product[] = [
     ],
     "brand": "Example",
     "size": "28W UK 10 Navy Wool Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-bottoms/products/vintage-example-trousers-womens-navy-28-waist-370675"
   },
   {
@@ -166,7 +166,7 @@ export const products: Product[] = [
     ],
     "brand": "504",
     "size": "30W UK 10 Dark Wash Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-bottoms/products/vintage-504-levis-jeans-womens-dark-wash-30-waist-370672"
   },
   {
@@ -190,7 +190,7 @@ export const products: Product[] = [
     ],
     "brand": "Street",
     "size": "36W UK 14 Blue Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-shorts/products/vintage-street-one-denim-shorts-womens-blue-36-waist-370209"
   },
   {
@@ -214,7 +214,7 @@ export const products: Product[] = [
     ],
     "brand": "Patagonia",
     "size": "34W UK 14 Grey Polyester",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-shorts/products/vintage-patagonia-shorts-womens-grey-34-waist-368446"
   },
   {
@@ -238,7 +238,7 @@ export const products: Product[] = [
     ],
     "brand": "Asics",
     "size": "32W UK 14 Grey Polyester Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-shorts/products/vintage-asics-shorts-womens-grey-32-waist-1053-wm"
   },
   {
@@ -286,7 +286,7 @@ export const products: Product[] = [
     ],
     "brand": "Riders",
     "size": "32W UK 14 Dark Wash Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-shorts/products/vintage-riders-shorts-womens-dark-wash-32-waist-359039"
   },
   {
@@ -310,7 +310,7 @@ export const products: Product[] = [
     ],
     "brand": "Wrangler",
     "size": "31W UK 14 Blue Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-shorts/products/vintage-wrangler-shorts-womens-blue-31-waist-358067"
   },
   {
@@ -334,7 +334,7 @@ export const products: Product[] = [
     ],
     "brand": "True",
     "size": "34W UK 14 Blue Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-shorts/products/vintage-true-religion-denim-shorts-womens-blue-34-waist-353840"
   },
   {
@@ -358,7 +358,7 @@ export const products: Product[] = [
     ],
     "brand": "Patagonia",
     "size": "32W UK 14 Blue Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-shorts/products/vintage-patagonia-shorts-womens-blue-32-waist-350333"
   },
   {
@@ -382,7 +382,7 @@ export const products: Product[] = [
     ],
     "brand": "Oakley",
     "size": "32W 11L Grey Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-mens-trousers-jeans-shorts-tracksuits/products/vintage-oakley-shorts-mens-grey-32-waist-371591"
   },
   {
@@ -406,7 +406,7 @@ export const products: Product[] = [
     ],
     "brand": "Arc'Teryx",
     "size": "30W UK 8 Grey Polyester",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-shorts/products/vintage-arcteryx-shorts-womens-grey-30-waist-370516"
   },
   {
@@ -430,7 +430,7 @@ export const products: Product[] = [
     ],
     "brand": "Halle",
     "size": "27W UK 6 Blue Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-shorts/products/vintage-halle-true-religion-denim-shorts-womens-blue-27-waist-370508"
   },
   {
@@ -454,7 +454,7 @@ export const products: Product[] = [
     ],
     "brand": "True",
     "size": "33W UK 12 White Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-shorts/products/vintage-true-religion-denim-shorts-womens-white-33-waist-370505"
   },
   {
@@ -478,7 +478,7 @@ export const products: Product[] = [
     ],
     "brand": "True",
     "size": "29W UK 8 Khaki Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-shorts/products/vintage-true-religion-shorts-womens-khaki-29-waist-370502"
   },
   {
@@ -502,7 +502,7 @@ export const products: Product[] = [
     ],
     "brand": "Arena",
     "size": "Small Black Nylon",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-shorts/products/vintage-arena-sport-shorts-womens-black-small-370224"
   },
   {
@@ -526,7 +526,7 @@ export const products: Product[] = [
     ],
     "brand": "Street",
     "size": "36W UK 14 Blue Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-shorts/products/vintage-street-one-denim-shorts-womens-blue-36-waist-370209"
   },
   {
@@ -574,7 +574,7 @@ export const products: Product[] = [
     ],
     "brand": "Asics",
     "size": "Small Blue Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-shorts/products/vintage-asics-sport-shorts-womens-blue-small-368791"
   },
   {
@@ -598,7 +598,7 @@ export const products: Product[] = [
     ],
     "brand": "Polo",
     "size": "Medium Red Down And Feather",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-puffer-jackets/products/vintage-polo-jeans-co-ralph-lauren-puffer-womens-red-medium-370592"
   },
   {
@@ -622,7 +622,7 @@ export const products: Product[] = [
     ],
     "brand": "Calvin",
     "size": "Large Brown Down And Feather",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-puffer-jackets/products/vintage-calvin-klein-jeans-puffer-womens-brown-large-370491"
   },
   {
@@ -694,7 +694,7 @@ export const products: Product[] = [
     ],
     "brand": "Patagonia",
     "size": "Small Red Polyester",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-puffer-jackets/products/vintage-patagonia-puffer-womens-red-small-370477"
   },
   {
@@ -742,7 +742,7 @@ export const products: Product[] = [
     ],
     "brand": "Patagonia",
     "size": "XS Blue Polyester",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-puffer-jackets/products/vintage-patagonia-puffer-womens-blue-x-small-370463"
   },
   {
@@ -814,7 +814,7 @@ export const products: Product[] = [
     ],
     "brand": "Single",
     "size": "Shirt",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-tops-ts/products/vintage-single-stitch-smoky-mountain-mash-miracle-benches-t-shirt-womens-white-medium-374478"
   },
   {
@@ -838,7 +838,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "Shirt",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-tops-ts/products/vintage-harley-davidson-t-shirt-womens-brown-large-374180"
   },
   {
@@ -862,7 +862,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "Shirt",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-tops-ts/products/vintage-harley-davidson-t-shirt-womens-green-x-large-374179"
   },
   {
@@ -886,7 +886,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "Shirt",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-tops-ts/products/vintage-harley-davidson-t-shirt-womens-green-xx-large-374174"
   },
   {
@@ -910,7 +910,7 @@ export const products: Product[] = [
     ],
     "brand": "Chicago,",
     "size": "Shirt",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-tops-ts/products/vintage-chicago-il-harley-davidson-t-shirt-womens-purple-x-large-374164"
   },
   {
@@ -958,7 +958,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "XL Blue Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-tops-ts/products/vintage-harley-davidson-vest-womens-blue-x-large-374161"
   },
   {
@@ -982,7 +982,7 @@ export const products: Product[] = [
     ],
     "brand": "Carhartt",
     "size": "Large Brown Cotton Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-jackets-coats/products/vintage-carhartt-jacket-womens-brown-large-374643"
   },
   {
@@ -1006,7 +1006,7 @@ export const products: Product[] = [
     ],
     "brand": "Carhartt",
     "size": "Medium Pink Cotton Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-jackets-coats/products/vintage-carhartt-jacket-womens-pink-medium-374641"
   },
   {
@@ -1054,7 +1054,7 @@ export const products: Product[] = [
     ],
     "brand": "Carhartt",
     "size": "Medium Red Cotton Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-jackets-coats/products/vintage-carhartt-jacket-womens-red-medium-374636"
   },
   {
@@ -1078,7 +1078,7 @@ export const products: Product[] = [
     ],
     "brand": "Nike",
     "size": "Medium Black Polyester",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-jackets-coats/products/vintage-nike-jacket-womens-black-medium-374312"
   },
   {
@@ -1126,7 +1126,7 @@ export const products: Product[] = [
     ],
     "brand": "Nike",
     "size": "Large Black Polyester",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-jackets-coats/products/vintage-nike-jacket-womens-black-large-374271"
   },
   {
@@ -1174,7 +1174,7 @@ export const products: Product[] = [
     ],
     "brand": "Nike",
     "size": "Small Navy Polyester",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-mens-trousers-jeans-shorts-tracksuits/products/vintage-nike-tracksuit-mens-navy-small-374311"
   },
   {
@@ -1198,7 +1198,7 @@ export const products: Product[] = [
     ],
     "brand": "Nike",
     "size": "Large Burgundy Polyester",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-mens-trousers-jeans-shorts-tracksuits/products/vintage-nike-tracksuit-mens-burgundy-large-374297"
   },
   {
@@ -1222,7 +1222,7 @@ export const products: Product[] = [
     ],
     "brand": "Nike",
     "size": "34W 7L Beige Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-mens-trousers-jeans-shorts-tracksuits/products/vintage-nike-acg-cargo-shorts-mens-beige-34-waist-374290"
   },
   {
@@ -1246,7 +1246,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "33W 28L Black Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-mens-trousers-jeans-shorts-tracksuits/products/vintage-harley-davidson-jeans-mens-black-33-waist-374131"
   },
   {
@@ -1414,7 +1414,7 @@ export const products: Product[] = [
     ],
     "brand": "Mnmi",
     "size": "30W UK 10 Black Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-jeans/products/vintage-mnmi-jeans-womens-black-30-waist-373955"
   },
   {
@@ -1438,7 +1438,7 @@ export const products: Product[] = [
     ],
     "brand": "Charms",
     "size": "28W UK 8 Black Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/vintage-womens-jeans/products/vintage-charms-jeans-womens-black-28-waist-373953"
   },
   {
@@ -1558,7 +1558,7 @@ export const products: Product[] = [
     ],
     "brand": "Nike",
     "size": "Small Navy Polyester",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-mens-trousers-jeans-shorts-tracksuits/products/vintage-nike-tracksuit-mens-navy-small-374311"
   },
   {
@@ -1582,7 +1582,7 @@ export const products: Product[] = [
     ],
     "brand": "Nike",
     "size": "Large Burgundy Polyester",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-mens-trousers-jeans-shorts-tracksuits/products/vintage-nike-tracksuit-mens-burgundy-large-374297"
   },
   {
@@ -1606,7 +1606,7 @@ export const products: Product[] = [
     ],
     "brand": "Nike",
     "size": "34W 7L Beige Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-mens-trousers-jeans-shorts-tracksuits/products/vintage-nike-acg-cargo-shorts-mens-beige-34-waist-374290"
   },
   {
@@ -1630,7 +1630,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "33W 28L Black Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-mens-trousers-jeans-shorts-tracksuits/products/vintage-harley-davidson-jeans-mens-black-33-waist-374131"
   },
   {
@@ -1774,7 +1774,7 @@ export const products: Product[] = [
     ],
     "brand": "Dickies",
     "size": "36W 34L Blue Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-mens-trousers-jeans-shorts-tracksuits/products/vintage-dickies-carpenter-jeans-mens-blue-36-waist-373978"
   },
   {
@@ -1822,7 +1822,7 @@ export const products: Product[] = [
     ],
     "brand": "Dickies",
     "size": "30W 34L Black Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-mens-trousers-jeans-shorts-tracksuits/products/vintage-dickies-carpenter-jeans-mens-black-30-waist-373977"
   },
   {
@@ -1990,7 +1990,7 @@ export const products: Product[] = [
     ],
     "brand": "Dickies",
     "size": "38W 30L Black Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-mens-trousers-jeans-shorts-tracksuits/products/vintage-dickies-carpenter-jeans-mens-black-38-waist-373973"
   },
   {
@@ -2086,7 +2086,7 @@ export const products: Product[] = [
     ],
     "brand": "Dickies",
     "size": "36W 34L Black Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-mens-trousers-jeans-shorts-tracksuits/products/vintage-dickies-carpenter-jeans-mens-black-36-waist-373969"
   },
   {
@@ -2158,7 +2158,7 @@ export const products: Product[] = [
     ],
     "brand": "Dickies",
     "size": "34W 34L Black Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-mens-trousers-jeans-shorts-tracksuits/products/vintage-dickies-carpenter-jeans-mens-black-34-waist-373968"
   },
   {
@@ -2182,7 +2182,7 @@ export const products: Product[] = [
     ],
     "brand": "Dickies",
     "size": "36W 30L Black Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-mens-trousers-jeans-shorts-tracksuits/products/vintage-dickies-carpenter-jeans-mens-black-36-waist-373967"
   },
   {
@@ -2206,7 +2206,7 @@ export const products: Product[] = [
     ],
     "brand": "Dickies",
     "size": "32W 31L Blue Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-mens-trousers-jeans-shorts-tracksuits/products/vintage-dickies-carpenter-jeans-mens-blue-32-waist-373966"
   },
   {
@@ -2374,7 +2374,7 @@ export const products: Product[] = [
     ],
     "brand": "Dickies",
     "size": "Medium Black Polyester",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-dickies-fleece-womens-black-medium-374672"
   },
   {
@@ -2446,7 +2446,7 @@ export const products: Product[] = [
     ],
     "brand": "Kappa",
     "size": "Large Red Polyester Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-kappa-sweatshirt-womens-red-large-374190"
   },
   {
@@ -2470,7 +2470,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "XL Black Cotton Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-harley-davidson-hoodie-womens-black-x-large-374181"
   },
   {
@@ -2494,7 +2494,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "Medium Black Cotton Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-harley-davidson-hoodie-womens-black-medium-374178"
   },
   {
@@ -2518,7 +2518,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "Small Black Cotton Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-harley-davidson-hoodie-womens-black-small-374177"
   },
   {
@@ -2542,7 +2542,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "Small Black Cotton Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-harley-davidson-hoodie-womens-black-small-374176"
   },
   {
@@ -2566,7 +2566,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "Large Beige Cotton Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-harley-davidson-hoodie-womens-beige-large-374172"
   },
   {
@@ -2590,7 +2590,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "Large Black Cotton Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-harley-davidson-hoodie-womens-black-large-374171"
   },
   {
@@ -2686,7 +2686,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "Small Black Cotton Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-harley-davidson-hoodie-womens-black-small-374165"
   },
   {
@@ -2734,7 +2734,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "XL Black Cotton Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-harley-davidson-zip-up-womens-black-x-large-374135"
   },
   {
@@ -2758,7 +2758,7 @@ export const products: Product[] = [
     ],
     "brand": "Adidas",
     "size": "XS Grey Polyester",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-adidas-fleece-womens-grey-x-small-374063"
   },
   {
@@ -2782,7 +2782,7 @@ export const products: Product[] = [
     ],
     "brand": "Timberland",
     "size": "XL Grey Polyester",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-timberland-fleece-womens-grey-x-large-374060"
   },
   {
@@ -2806,7 +2806,7 @@ export const products: Product[] = [
     ],
     "brand": "Lauren",
     "size": "Large Brown Polyester",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-lauren-ralph-lauren-fleece-gilet-womens-brown-large-374055"
   },
   {
@@ -2902,7 +2902,7 @@ export const products: Product[] = [
     ],
     "brand": "Tomahawk,",
     "size": "Medium Black Cotton Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-tomahawk-wisconsin-harley-davidson-hoodie-womens-black-medium-373921"
   },
   {
@@ -2926,7 +2926,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "Medium Navy Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-harley-davidson-sweatshirt-womens-navy-medium-373901"
   },
   {
@@ -2950,7 +2950,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "Medium Blue Cotton",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-harley-davidson-hoodie-womens-blue-medium-373899"
   },
   {
@@ -2974,7 +2974,7 @@ export const products: Product[] = [
     ],
     "brand": "Harley",
     "size": "neck Sweatshirt",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-harley-davidson-sweatshirt-womens-brown-medium-373895"
   },
   {
@@ -3022,7 +3022,7 @@ export const products: Product[] = [
     ],
     "brand": "Puma",
     "size": "Small Black Cotton Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-puma-1-4-zip-womens-black-small-373849"
   },
   {
@@ -3046,7 +3046,7 @@ export const products: Product[] = [
     ],
     "brand": "Nike",
     "size": "XL Grey Cotton Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-nike-sweatshirt-womens-grey-x-large-373839"
   },
   {
@@ -3070,7 +3070,7 @@ export const products: Product[] = [
     ],
     "brand": "Adidas",
     "size": "Large Black Cotton Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-adidas-sweatshirt-womens-black-large-373833"
   },
   {
@@ -3094,7 +3094,7 @@ export const products: Product[] = [
     ],
     "brand": "Fila",
     "size": "Large Black Cotton Blend",
-    "condition": "Good",
+    "condition": "Very Good",
     "externalUrl": "https://www.thrifted.com/collections/all-vintage-womens-sweats-hoods-jumpers/products/vintage-fila-sweatshirt-womens-black-large-373827"
   },
   {

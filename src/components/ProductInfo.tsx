@@ -20,9 +20,9 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
     <>
       <div className="flex justify-between items-start mb-4">
         <h2 className="text-xl font-medium">{name}</h2>
-        <span className="px-2 py-0.5 bg-purple-100 text-purple-600 rounded-full text-sm">
+        {/* <span className="px-2 py-0.5 bg-purple-100 text-purple-600 rounded-full text-sm">
           {condition}
-        </span>
+        </span> */}
       </div>
       
       <div className="mb-6">

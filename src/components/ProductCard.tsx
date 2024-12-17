@@ -79,9 +79,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       <div className="p-4">
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-semibold">{product.name}</h3>
-          <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-sm text-center">
-            {product.condition}
-          </span>
+          {/* <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-sm text-center">
+            {product.condition || 'Unknown'}
+          </span> */}
         </div>
         
         <div className="flex justify-between items-center">

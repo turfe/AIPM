@@ -62,14 +62,34 @@ def update_user_profile(user_likes, user_dislikes, user_seen, df):
     return user_profile
 
 def retrieve_recommendations(user_profile, user_likes, user_dislikes, user_seen, df, top_k=2):
+    # Convert all item embeddings to a numpy array
     item_embeddings = np.array(df['embedding'].tolist())
+    
+    # Calculate cosine similarity between user profile and all items
     similarities = cosine_similarity([user_profile], item_embeddings)[0]
-
+    
+    # Get indices of items the user hasn't seen yet
     unseen_indices = [i for i in range(len(df)) if i not in user_seen]
     unseen_similarities = similarities[unseen_indices]
-
-    top_k_indices = [unseen_indices[i] for i in np.argsort(unseen_similarities)[::-1][:top_k]]
-    return top_k_indices
+    
+    # Get top N candidates (N > k) to introduce variety
+    n_candidates = min(top_k * 5, len(unseen_indices))  # Get 5x more candidates than needed
+    top_n_indices = [unseen_indices[i] for i in np.argsort(unseen_similarities)[::-1][:n_candidates]]
+    
+    # Calculate weights based on similarities (higher similarity = higher probability)
+    weights = unseen_similarities[np.argsort(unseen_similarities)[::-1][:n_candidates]]
+    weights = np.exp(weights) # Apply exponential to make differences more pronounced
+    weights = weights / np.sum(weights)  # Normalize to probabilities
+    
+    # Randomly select k items from the candidates, using similarities as weights
+    selected_indices = np.random.choice(
+        top_n_indices, 
+        size=top_k, 
+        replace=False,  # Don't select the same item twice
+        p=weights
+    )
+    
+    return selected_indices.tolist()
 
 
 # TODO: Add Preferences
